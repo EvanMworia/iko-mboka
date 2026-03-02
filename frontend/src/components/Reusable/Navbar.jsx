@@ -4,7 +4,7 @@ const Navbar = () => {
 			{/* Logo */}
 			<div className='flex items-center space-x-2'>
 				<img src='../../assets/logo.svg' alt='Iko Mboka' className='h-8 w-8' />
-				<span className='font-semibold text-lg text-gray-800'>Iko Mboka</span>
+				<span className='font-semibold text-lg text-gray-800'>KaziNear</span>
 			</div>
 
 			{/* Links */}

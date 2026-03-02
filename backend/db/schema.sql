@@ -46,8 +46,12 @@ GO
 CREATE TABLE UsersTemp (
     UserTempId UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
     DeviceIdentifier NVARCHAR(255) NULL,
-    CreatedAt DATETIME DEFAULT GETDATE()
+    CreatedAt DATETIME DEFAULT GETDATE(),
+    Latitude DECIMAL(9,6) NULL,
+    Longitude DECIMAL(9,6) NULL
 );
+
+
 GO
 
 -- ==========================
@@ -89,3 +93,9 @@ VALUES ('Plumber', 'Plumbing and pipe works'),
        ('Electrician', 'Electrical installations'),
        ('Carpenter', 'Woodwork and repairs');
 GO
+USE IkoMbokaDB;
+GO
+INSERT INTO Services (ServiceName, Description)
+VALUES ('Mechanic', 'Automotive repairs and maintenance'),
+         ('Cleaner', 'House and office cleaning services'),
+         ('Babysitter', 'Childcare services');

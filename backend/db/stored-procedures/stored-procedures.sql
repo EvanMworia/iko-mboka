@@ -13,7 +13,8 @@ BEGIN
     VALUES (@ServiceName, @Description);
 END;
 GO
-
+USE IkoMbokaDB;
+GO
 CREATE OR ALTER PROCEDURE sp_GetServices
 AS
 BEGIN
@@ -172,7 +173,66 @@ BEGIN
     ORDER BY DistanceKm, sp.RatingAverage DESC;
 END;
 GO
+USE IkoMbokaDB;
+GO
+CREATE OR ALTER PROCEDURE sp_GetProvidersNearLocationByService
+    @Latitude DECIMAL(9,6),
+    @Longitude DECIMAL(9,6),
+    @RadiusKm FLOAT,
+    @ServiceId INT
+AS
+BEGIN
+    -- Haversine formula to calculate distance between two coordinates in KM
+    SELECT 
+        sp.ProviderId,
+        sp.FullName,
+        sp.Phone,
+        sp.Email,
+        sp.RatingAverage,
+        sp.Latitude,
+        sp.Longitude,
+        s.ServiceName,
+        sp.Address,
+        (
+            6371 * ACOS(
+                COS(RADIANS(@Latitude)) * COS(RADIANS(sp.Latitude)) *
+                COS(RADIANS(sp.Longitude) - RADIANS(@Longitude)) +
+                SIN(RADIANS(@Latitude)) * SIN(RADIANS(sp.Latitude))
+            )
+        ) AS DistanceKm
+    FROM ServiceProviders sp
+    INNER JOIN Services s ON sp.ServiceId = s.ServiceId
+    WHERE (
+        6371 * ACOS(
+            COS(RADIANS(@Latitude)) * COS(RADIANS(sp.Latitude)) *
+            COS(RADIANS(sp.Longitude) - RADIANS(@Longitude)) +
+            SIN(RADIANS(@Latitude)) * SIN(RADIANS(sp.Latitude))
+        )
+    ) <= @RadiusKm
+    AND sp.ServiceId = @ServiceId
+    ORDER BY DistanceKm, sp.RatingAverage DESC;
+END;
+GO
 
+CREATE OR ALTER PROCEDURE sp_GetProviderDetails
+    @ProviderId INT
+AS
+BEGIN
+    SELECT 
+        sp.ProviderId,
+        sp.FullName,
+        sp.Phone,
+        sp.Email,
+        sp.RatingAverage,
+        sp.Latitude,
+        sp.Longitude,
+        s.ServiceName,
+        sp.Address
+    FROM ServiceProviders sp
+    INNER JOIN Services s ON sp.ServiceId = s.ServiceId
+    WHERE sp.ProviderId = @ProviderId;
+END;
+GO
 
 /* ============================================
    2. Get Top Rated Providers
@@ -217,8 +277,10 @@ BEGIN
     WHERE ProviderId = @ProviderId;
 END;
 GO
+USE IkoMbokaDB;
+GO
 
-CREATE OR ALTER PROCEDURE sp_GetReviewsByProvider
+CREATE OR ALTER PROCEDURE sp_GetReviewsForProvider
     @ProviderId INT
 AS
 BEGIN
