@@ -1,6 +1,6 @@
 ## Iko Mboka / KaziNear
 
-**Iko Mboka (a.k.a. KaziNear)** is a full‑stack experiment for discovering **trusted, nearby service providers** (plumbers, electricians, cleaners, etc.) based on a user’s **live location**, with **ratings, reviews**, and an **AI review summarizer** on top.
+**Iko Mboka (a.k.a. KaziNear)** is a full‑stack experiment for discovering niche, lesser-known services that people might get an impromptu need for urgently. KaziNear attempts to bridge that gap by connecting you to  **trusted, nearby service providers** (plumbers, electricians, cleaners, etc.) based on a user’s **live location**, with **ratings, reviews**, and an **AI review summarizer** on top.
 
 Think of it as a location‑aware marketplace where:
 - **Users** pick a service, share their location, and get back nearby vetted providers.
